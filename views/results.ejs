@@ -1,0 +1,47 @@
+<%- include('partials/header') %>
+
+<h2>Search Results</h2>
+
+<p>
+  There are <strong><%= matches.length %></strong> lines containing "<%= query
+  %>" in songs by <%= artist %>.
+</p>
+
+<% if (matches.length === 0 ) { %>
+<p>No results found.</p>
+<% } else { %>
+<table class="table table-striped" id="results-table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col"><a href="javascript:sortTable(0,'T');">Artist</a></th>
+      <th scope="col"><a href="javascript:sortTable(1,'T');">Album</a></th>
+      <th scope="col"><a href="javascript:sortTable(2,'N');">Track</a></th>
+      <th scope="col"><a href="javascript:sortTable(3,'T');">Song Title</a></th>
+      <th scope="col"><a href="javascript:sortTable(4,'N');">Year</a></th>
+      <th scope="col"><a href="javascript:sortTable(5,'N');">Line</a></th>
+      <th scope="col"><a href="javascript:sortTable(6,'T');">Lyric</a></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% matches.forEach((match) => { %>
+    <tr>
+      <td><a href="/artists/<%= match.artist %>"><%= match.artist %></a></td>
+      <td>
+        <a href="/artists/<%= match.artist %>/<%= match.album %>"
+          ><%= match.album %></a
+        >
+      </td>
+      <td><%= match.trackNumber %></td>
+      <td><a href="/songs/<%= match.id %>"><%= match.title %></a></td>
+      <td><%= match.year %></td>
+      <td><%= match.lineNumber %></td>
+      <td><%= match.line %></td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+<% }%>
+
+<script src="/scripts/sort.js" type="text/javascript"></script>
+
+<%- include('partials/footer') %>

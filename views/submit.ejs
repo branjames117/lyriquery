@@ -1,0 +1,35 @@
+<%- include('partials/header') %>
+
+<h2>Submit New Song</h2>
+
+<p><form action="/submit" method="post">
+  <div class="form-group d-flex flex-column">
+
+  <label for='artist'>Artist</label>
+  <input class='form-control' type='text' id='artist' name='artist' />
+
+  <label for='featured'>Featured Artist(s) <i>optional</i></label>
+  <input class='form-control' type='text' id='featured' name='featured' />
+
+  <label for='title'>Song Title</label>
+  <input class='form-control' type='text' id='title' name='title' autocomplete='off' />
+
+  <label for='track'>Track Number</label>
+  <input class='form-control' type='text' id='track' name='track' autocomplete='off' />
+  
+  <label for='album'>Album</label>
+  <input class='form-control' type='text' id='album' name='album' />
+    
+  <label for='authors'>Author(s) <i>optional, names separated by commas only</i></label>
+  <input class='form-control' type='text' id='authors' name='authors' />
+    
+  <label for='year'>Year</label>
+  <input class='form-control' type='text' id='year' name='year' />
+    
+  <label for='lyrics'>Lyrics</label>
+  <textarea class='form-control' type='text' id='lyrics' name='lyrics' rows='10'></textarea>
+  
+  <button class="btn btn-primary" type="submit" name="button">Submit</button></div>
+</form></p>
+
+<%- include('partials/footer') %>

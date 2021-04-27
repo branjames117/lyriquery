@@ -1,0 +1,56 @@
+<%- include('partials/header') %> <% function submit(song) { ; } %>
+
+<div class="row"><div class="col col-10"><h2><i><%= song.title %></i> by <a href="<%= '/artists/' + song.artist %>"><%= song.artist %></a><% if (song.featuredArtist.length > 0) { %>, featuring <%= song.featuredArtist %><% } %></h2></div>
+<div class="col col-1"><form action="/submitupdate" method="post">
+  <button
+    class="btn btn-primary btn-sm "
+    onclick="this.form.submit()"
+    name="updateThis"
+    value="<%= song._id %>"
+  >
+    <i class="fas fa-pencil-alt"></i>
+  </button>
+</form></div>
+<div class="col col-1"><form action="/delete" method="post">
+  <button
+    class="btn btn-primary btn-sm"
+    onclick="this.form.submit()"
+    name="deleteThis"
+    value="<%= song._id %>"
+  >
+    <i class="fas fa-trash-alt"></i>
+  </button>
+</form></div>
+</div>
+
+<p>Album: <a href="/artists/<%= song.artist %>/<%= song.album %>"
+  ><%= song.album %> (<%= song.year %>)</a
+  ><br>
+  Track: <%= song.trackNumber %><br>
+  Writers: <% if (song.authors.length === 1) { %>
+    <%= song.authors %>
+    <% } else if (song.authors.length === 2) { %>
+      <%= song.authors[0] + ' and ' + song.authors[1]  %>
+    <% } else { %>
+      <% song.authors.forEach((author, index, arr) => { %>
+      <% if (index !== arr.length - 1) { %>
+        <%= author + ', ' %>
+        <% } else { %>
+        <%= ' and ' + author %>
+        <% }})} %>
+</p>
+
+<table class="table table-striped">
+  <tr>
+    <th>Line</th><th>Lyric</th>
+  </tr>
+  <% song.lyrics.forEach((line, index) => { %>
+    <tr>
+      <td><%= index + 1 %></td>
+      <td><%= line %></td>
+    </tr>
+  <% }); %></table> 
+
+  <a href="#top"><button class="btn btn-primary">Return to Top</button></a>
+  
+  <%- include('partials/footer') %></p>

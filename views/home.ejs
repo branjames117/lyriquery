@@ -1,0 +1,37 @@
+<%- include('partials/header') %>
+
+<h2>Welcome to LyriQuery</h2>
+
+<p style="margin-bottom: 20px">
+  Find all occurrences of specific phrases in your favorite artist's catalog!
+</p>
+
+<form action="/results" method="post">
+  <div class="form-group d-flex flex-column">
+    <label for="artist">Artist</label>
+    <input
+      class="form-control"
+      type="text"
+      id="artist"
+      name="artist"
+      value="Taylor Swift"
+      placeholder="Artist"
+    />
+    <label for="query">LyriQuery</label>
+    <input
+      class="form-control"
+      type="text"
+      id="query"
+      name="query"
+      value="I'm in exile"
+      placeholder="Phrase"
+    />
+    <button class="btn btn-primary">Run the LyriQuery</button>
+  </div>
+</form>
+
+<div class="center">
+  <img class="image" src="/img/headphones.jpg" />
+</div>
+
+<%- include('partials/footer') %>

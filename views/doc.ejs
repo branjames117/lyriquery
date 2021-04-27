@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+
+<h2>About LyriQuery</h2>
+
+<p>
+  LyriQuery is a lyrics database requested by Shannon Hayes due to her love of
+  Taylor Swift. It is developed by Brandon James using
+  <a href="https://nodejs.org/en/">Node.js</a>,
+  <a href="https://expressjs.com/">Express.js</a>,
+  <a href="https://mongoosejs.com/">Mongoose</a> and
+  <a href="https://ejs.co/">Embedded JavaScript templates (EJS)</a>. It uses
+  <a href="https://www.mongodb.com/">MongoDB</a> for its database and <a href="https://getbootstrap.com/">Bootstrap 5</a> for CSS styling.
+</p>
+
+<h3>Submitting Lyrics</h3>
+<p>
+  Before queries can be performed, the database must be populated using the
+  hidden submission route. All fields except Featured Artist(s) are required. If
+  a required field is missing, you'll be redirected to the /error route. If you submit lyrics for a song that already exists in the database,
+  you'll be redirected to the /error route.
+</p>
+<p>Rules for database entry:
+  <ul>
+    <li>Remove extraneous lines like [Outro: Taylor Swift] and [Both singing now], unless you want these counted as individual lines.</li>
+    <li>Extra line breaks (like the ones between stanzas) will be filtered out.</li>
+  </ul>
+</p>
+
+<h3>Querying Lyrics</h3>
+<p>
+  From the root page, enter the name of the artist as well as a query - without quotes! This will query the MongoDB database, first pulling all songs by the specified artist,
+  then looping through each and every song, line by line, looking for matches to your query. When a match is found, that line, as well as its pertinent data, is pushed onto an array of match objects, which is then sent along with you to the /results route,
+  where it is iterated over and converted into a table. This table is sortable thanks to the Willmaster Table Sort script by Will Bontrager, 2011. String methods on both ends make queries a little more forgivable, so "i'm in exile" will return lines containing "I'm in exile," and "seeing you out" will return lines containing "seein' you out" (but the reverse is not true: "seein' you out" will not return "seeing you out"). As well, special characters like commas, periods, semicolons, quotation marks and parentheses will be ignored.
+</p>
+
+<%- include('partials/footer') %>

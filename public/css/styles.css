@@ -1,0 +1,159 @@
+:root {
+  --primary-clr: #ce1f6a;
+  --secondary-clr: #d8f8b7;
+  --tertiary-clr: #ff9a8c;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  background-color: 0;
+}
+
+.container-fluid {
+  width: 60vw;
+  padding: 0;
+}
+
+/* NAVBAR STYLES */
+
+.container-nav {
+  padding: 0;
+}
+
+.navbar {
+  padding: 15px 0;
+  border: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+  font-size: 12px;
+  letter-spacing: 5px;
+  background-color: var(--secondary-clr) !important;
+}
+
+.navbar-brand a {
+  text-decoration: none;
+  font-size: 1.4rem;
+}
+
+.navbar-nav li a {
+  color: var(--primary-clr) !important;
+  transition: color 0.25s linear;
+}
+
+.navbar-nav li a:hover {
+  color: var(--tertiary-clr) !important;
+}
+
+/* MAIN BODY STYLES */
+
+.container-main {
+  padding: 25px 0 100px 0;
+  margin: 0 0 100px 0;
+}
+
+h2 {
+  padding-bottom: 10px;
+}
+
+h3 {
+  margin-top: 20px;
+}
+
+a {
+  color: var(--primary-clr);
+  text-decoration: none;
+  transition: color 0.25s linear;
+}
+
+a:hover {
+  color: var(--tertiary-clr);
+}
+
+p {
+  margin: 0;
+  padding: 0;
+  line-height: 1.6em;
+}
+
+label {
+  margin: 7px 0 0 0;
+}
+
+table {
+  margin-top: 15px;
+}
+
+.center {
+  text-align: center;
+}
+
+.image {
+  margin: 50px 0 0 0;
+  box-sizing: border-box;
+  border-radius: 10%;
+  border: black 1px solid;
+  width: 60%;
+  filter: hue-rotate(60deg);
+  transition: filter 0.5s linear;
+}
+
+.image:hover {
+  filter: hue-rotate(300deg);
+}
+
+.social {
+  color: var(--secondary-clr);
+  font-size: 22px;
+  transition: color 0.25s;
+}
+
+.social:hover {
+  color: var(--tertiary-clr) !important;
+}
+
+.line-number {
+  position: relative;
+  left: -22px;
+}
+
+.form-control:focus {
+  border-color: var(--primary-clr);
+  box-shadow: 0 0 0 0.25rem rgba(129, 82, 173, 0.322);
+}
+
+.btn-primary {
+  background-color: var(--primary-clr);
+  color: var(--secondary-clr);
+  border: black 1px solid;
+  margin-top: 15px;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--secondary-clr);
+  color: var(--primary-clr);
+  border: black 1px solid;
+}
+
+.footer {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  height: fit-content;
+  background-color: var(--primary-clr);
+  padding: 20px 0;
+  margin: 60px 0 0 0;
+  font-size: 12px;
+  color: var(--secondary-clr);
+}
