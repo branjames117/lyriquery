@@ -36,25 +36,44 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="top">
-      <div class="container-fluid container-nav">
-        <div class="navbar-header">
-          <p class="navbar-brand"><a href="/">LYRIQUERY.IO</a></p>
+      <div class="container">
+          <a class="navbar-brand" href="#">LYRIQUERY</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/"
+                  ><i class="fas fa-search"></i> HOME</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/database"
+                  ><i class="fas fa-database"></i> DATABASE</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/doc"
+                  ><i class="fas fa-question-circle"></i> ABOUT</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/submit"
+                  ><i class="fas fa-arrow-circle-up"></i> SUBMIT</a
+                >
+              </li>
+            </ul>
         </div>
-        <ul class="navbar-nav">
-          <li class="nav-item" id="database">
-            <a class="nav-link" href="/database">DATABASE</a>
-          </li>
-          <li class="nav-item" id="doc">
-            <a class="nav-link" href="/doc">ABOUT</a>
-          </li>
-          <li class="nav-item" id="submit">
-            <a class="nav-link" href="/submit">SUBMIT</a>
-          </li>
-                    <li class="nav-item" id="search">
-            <a class="nav-link" href="/"><i class="fas fa-search"></i> SEARCH</a>
-          </li>
-        </ul>
       </div>
     </nav>
-    <div class="container-fluid">
-      <div class="container-main">
+
+    <div class="container-main">
+      <div class="container">

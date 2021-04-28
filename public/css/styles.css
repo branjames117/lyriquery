@@ -16,12 +16,7 @@ html {
 }
 
 body {
-  background-color: 0;
-}
-
-.container-fluid {
-  width: 60vw;
-  padding: 0;
+  background-color: white;
 }
 
 /* NAVBAR STYLES */
@@ -61,6 +56,10 @@ body {
   margin: 0 0 100px 0;
 }
 
+.container {
+  padding: 0;
+}
+
 h2 {
   padding-bottom: 10px;
 }
@@ -91,6 +90,7 @@ label {
 
 table {
   margin-top: 15px;
+  table-layout: auto;
 }
 
 .center {
@@ -98,15 +98,14 @@ table {
 }
 
 .image {
-  margin: 50px 0 0 0;
   box-sizing: border-box;
   border-radius: 10%;
   border: black 1px solid;
   width: 100%;
+  max-width: 650px;
   filter: hue-rotate(60deg);
   transition: filter 0.5s linear;
-  position: relative;
-  top: 0;
+  margin-top: 50px;
 }
 
 .image:hover {
@@ -158,4 +157,18 @@ table {
   margin: 60px 0 0 0;
   font-size: 12px;
   color: var(--secondary-clr);
+}
+
+@media screen and (max-width: 566px) {
+  .container {
+    padding: 0 20px;
+  }
+  .social {
+    color: var(--secondary-clr);
+    font-size: 42px;
+    transition: color 0.25s;
+  }
+  table {
+    table-layout: fixed;
+  }
 }

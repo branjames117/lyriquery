@@ -1,46 +1,37 @@
 <%- include('partials/header') %>
 
-<div class="container">
-  <div class="row gx-5">
-    <div class="col-lg-12 col-xl-6">
-      <h2>Welcome to LyriQuery</h2>
+<h2>Welcome to LyriQuery</h2>
 
-      <p style="margin-bottom: 20px">
-        Need a specific lyric for your Instagram story or Facebook image
-        caption? Find all occurrences of a specific phrase from your favorite
-        artist's catalog.
-      </p>
+<p style="margin-bottom: 20px">
+  Need a specific lyric for your Instagram story or Facebook image caption? Find
+  all occurrences of a specific phrase from your favorite artist's catalog.
+</p>
 
-      <form action="/results" method="post">
-        <div class="form-group d-flex flex-column">
-          <label for="artist">Artist</label>
-          <input
-            class="form-control"
-            type="text"
-            id="artist"
-            name="artist"
-            value="Taylor Swift"
-            placeholder="Artist"
-          />
-          <label for="query">LyriQuery</label>
-          <input
-            class="form-control"
-            type="text"
-            id="query"
-            name="query"
-            value="I'm in exile"
-            placeholder="Phrase"
-          />
-          <button class="btn btn-primary">Run the LyriQuery</button>
-        </div>
-      </form>
-    </div>
-    <div class="col-lg-12 col-xl-6">
-      <div class="center">
-        <img class="image" src="/img/headphones.jpg" />
-      </div>
-    </div>
+<form action="/results" method="post">
+  <div class="form-group d-flex flex-column">
+    <label for="artist">Artist</label>
+    <input
+      class="form-control"
+      type="text"
+      id="artist"
+      name="artist"
+      value="Taylor Swift"
+      placeholder="Artist"
+    />
+    <label for="query">LyriQuery</label>
+    <input
+      class="form-control"
+      type="text"
+      id="query"
+      name="query"
+      value="I'm in exile"
+      placeholder="Phrase"
+    />
+    <button class="btn btn-primary">Run the LyriQuery</button>
   </div>
+</form>
+<div class="center">
+  <img class="image" src="/img/headphones.jpg" />
 </div>
 
 <%- include('partials/footer') %>
