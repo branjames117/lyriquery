@@ -81,7 +81,7 @@ a:hover {
 
 p {
   margin: 0;
-  padding: 0;
+  padding: 8px 0 0 0;
   line-height: 1.6em;
 }
 
@@ -102,9 +102,11 @@ table {
   box-sizing: border-box;
   border-radius: 10%;
   border: black 1px solid;
-  width: 60%;
+  width: 100%;
   filter: hue-rotate(60deg);
   transition: filter 0.5s linear;
+  position: relative;
+  top: 0;
 }
 
 .image:hover {

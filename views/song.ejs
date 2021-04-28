@@ -1,27 +1,7 @@
 <%- include('partials/header') %> <% function submit(song) { ; } %>
 
-<div class="row"><div class="col col-10"><h2><i><%= song.title %></i> by <a href="<%= '/artists/' + song.artist %>"><%= song.artist %></a><% if (song.featuredArtist.length > 0) { %>, featuring <%= song.featuredArtist %><% } %></h2></div>
-<div class="col col-1"><form action="/submitupdate" method="post">
-  <button
-    class="btn btn-primary btn-sm "
-    onclick="this.form.submit()"
-    name="updateThis"
-    value="<%= song._id %>"
-  >
-    <i class="fas fa-pencil-alt"></i>
-  </button>
-</form></div>
-<div class="col col-1"><form action="/delete" method="post">
-  <button
-    class="btn btn-primary btn-sm"
-    onclick="this.form.submit()"
-    name="deleteThis"
-    value="<%= song._id %>"
-  >
-    <i class="fas fa-trash-alt"></i>
-  </button>
-</form></div>
-</div>
+<h2><i><%= song.title %></i> by <a href="<%= '/artists/' + song.artist %>"><%= song.artist %></a><% if (song.featuredArtist.length > 0) { %>, featuring <%= song.featuredArtist %><% } %></h2>
+
 
 <p>Album: <a href="/artists/<%= song.artist %>/<%= song.album %>"
   ><%= song.album %> (<%= song.year %>)</a
@@ -39,6 +19,26 @@
         <%= ' and ' + author %>
         <% }})} %>
 </p>
+
+<form style="display: inline;" action="/submitupdate" method="post">
+  <button
+    class="btn btn-primary btn-sm "
+    onclick="this.form.submit()"
+    name="updateThis"
+    value="<%= song._id %>"
+  >
+    <i class="fas fa-pencil-alt"></i> EDIT
+  </button>
+</form><form style="display: inline;" action="/delete" method="post">
+  <button
+    class="btn btn-primary btn-sm"
+    onclick="this.form.submit()"
+    name="deleteThis"
+    value="<%= song._id %>"
+  >
+    <i class="fas fa-trash-alt"></i> DELETE
+  </button>
+</form>
 
 <table class="table table-striped">
   <tr>
