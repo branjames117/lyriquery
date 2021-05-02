@@ -10,7 +10,7 @@
 <% if (matches.length === 0 ) { %>
 <p>No results found.</p>
 <% } else { %>
-<table class="table table-striped" id="results-table">
+<table class="table table-striped full-table" id="results-table">
   <thead class="thead-light">
     <tr>
       <th scope="col"><a href="javascript:sortTable(0,'T');">Artist</a></th>
@@ -36,6 +36,36 @@
       <td><%= match.year %></td>
       <td><%= match.lineNumber %></td>
       <td><%= match.line %></td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+<!-- mobile users get a different table that looks better for them -->
+<table class="table table-striped mobile-table" id="results-table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col"><a href="javascript:sortTable(0,'T');">Artist</a></th>
+      <th scope="col"><a href="javascript:sortTable(1,'T');">Album</a></th>
+      <th scope="col"><a href="javascript:sortTable(2,'T');">Song Title</a></th>
+      <th scope="col"><a href="javascript:sortTable(3,'N');">Year</a></th>
+      <th scope="col"><a href="javascript:sortTable(4,'N');">Line</a></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% matches.forEach((match) => { %>
+    <tr>
+      <td><a href="/artists/<%= match.artist %>"><%= match.artist %></a></td>
+      <td>
+        <a href="/artists/<%= match.artist %>/<%= match.album %>"
+          ><%= match.album %></a
+        >
+      </td>
+      <td><a href="/songs/<%= match.id %>"><%= match.title %></a></td>
+      <td><%= match.year %></td>
+      <td><%= match.lineNumber %></td>
+    </tr>
+    <tr>
+      <td colspan="5"><%= match.line %></td>
     </tr>
     <% }) %>
   </tbody>

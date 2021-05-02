@@ -5,7 +5,7 @@
 <% if (entries.length === 0 ) { %>
 <p>No results found.</p>
 <% } else { %>
-<table class="table table-striped" id="results-table">
+<table class="table table-striped full-table" id="results-table">
   <thead class="thead-light">
     <tr>
       <th scope="col"><a href="javascript:sortTable(0,'T');">Artist</a></th>
@@ -60,7 +60,33 @@
     <% }) %>
   </tbody>
 </table>
+<table class="table table-striped mobile-table" id="results-table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col"><a href="javascript:sortTable(0,'T');">Artist</a></th>
+      <th scope="col"><a href="javascript:sortTable(1,'T');">Album</a></th>
+      <th scope="col"><a href="javascript:sortTable(2,'N');">Track</a></th>
+      <th scope="col"><a href="javascript:sortTable(3,'T');">Song Title</a></th>
+      <th scope="col"><a href="javascript:sortTable(4,'N');">Year</a></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% entries.forEach((entry) => { %>
 
+    <tr>
+      <td><a href="/artists/<%= entry.artist %>"><%= entry.artist %></a></td>
+      <td>
+        <a href="/artists/<%= entry.artist %>/<%= entry.album %>"
+          ><%= entry.album %></a
+        >
+      </td>
+      <td><%= entry.trackNumber %></td>
+      <td><a href="/songs/<%= entry._id %>"><%= entry.title %></a></td>
+      <td><%= entry.year %></td></tr>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
 <% } %>
 
 <a href="/submit"><button class="btn btn-primary">Add New</button></a>
