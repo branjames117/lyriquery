@@ -1,9 +1,9 @@
 <%- include('partials/header') %> <% function submit(song) { ; } %>
 
-<h2><i><%= song.title %></i> by <a href="<%= '/artists/' + song.artist %>"><%= song.artist %></a><% if (song.featuredArtist.length > 0) { %>, featuring <%= song.featuredArtist %><% } %></h2>
+<h2><i><%= song.title %></i> by <a href="<%= '/artist/' + song.artist %>"><%= song.artist %></a><% if (song.featuredArtist.length > 0) { %>, featuring <%= song.featuredArtist %><% } %></h2>
 
 
-<p>Album: <a href="/artists/<%= song.artist %>/<%= song.album %>"
+<p>Album: <a href="/artist/<%= song.artist %>/<%= song.album %>"
   ><%= song.album %> (<%= song.year %>)</a
   ><br>
   Track: <%= song.trackNumber %><br>
@@ -20,11 +20,11 @@
         <% }})} %>
 </p>
 
-<form style="display: inline;" action="/submitupdate" method="post">
+<form style="display: inline;" action="/submit" method="post">
   <button
     class="btn btn-primary btn-sm "
     onclick="this.form.submit()"
-    name="updateThis"
+    name="update"
     value="<%= song._id %>"
   >
     <i class="fas fa-pencil-alt"></i> EDIT
@@ -33,14 +33,14 @@
   <button
     class="btn btn-primary btn-sm"
     onclick="this.form.submit()"
-    name="deleteThis"
+    name="delete"
     value="<%= song._id %>"
   >
     <i class="fas fa-trash-alt"></i> DELETE
   </button>
 </form>
 
-<table class="table table-striped">
+<table class="table table-striped table-hover">
   <tr>
     <th>Line</th><th>Lyric</th>
   </tr>

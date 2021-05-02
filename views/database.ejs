@@ -5,13 +5,13 @@
 <% if (entries.length === 0 ) { %>
 <p>No results found.</p>
 <% } else { %>
-<table class="table table-striped full-table" id="results-table">
+<table class="table table-striped full-table table-hover" id="results-table">
   <thead class="thead-light">
     <tr>
       <th scope="col"><a href="javascript:sortTable(0,'T');">Artist</a></th>
       <th scope="col"><a href="javascript:sortTable(1,'T');">Album</a></th>
       <th scope="col"><a href="javascript:sortTable(2,'N');">Track</a></th>
-      <th scope="col"><a href="javascript:sortTable(3,'T');">Song Title</a></th>
+      <th scope="col"><a href="javascript:sortTable(3,'T');">Song</a></th>
       <th scope="col"><a href="javascript:sortTable(4,'T');">Feat.</a></th>
       <th scope="col"><a href="javascript:sortTable(5,'N');">Year</a></th>
       <th scope="col"></th>
@@ -22,22 +22,22 @@
     <% entries.forEach((entry) => { %>
 
     <tr>
-      <td><a href="/artists/<%= entry.artist %>"><%= entry.artist %></a></td>
+      <td><a href="/artist/<%= entry.artist %>"><%= entry.artist %></a></td>
       <td>
-        <a href="/artists/<%= entry.artist %>/<%= entry.album %>"
+        <a href="/artist/<%= entry.artist %>/<%= entry.album %>"
           ><%= entry.album %></a
         >
       </td>
       <td><%= entry.trackNumber %></td>
-      <td><a href="/songs/<%= entry._id %>"><%= entry.title %></a></td>
+      <td><a href="/song/<%= entry._id %>"><%= entry.title %></a></td>
       <td><%= entry.featuredArtist %></td>
       <td><%= entry.year %></td>
       <td>
-        <form action="/submitupdate" method="post">
+        <form action="/submit" method="post">
           <button
             class="btn btn-primary btn-sm m-0"
             onclick="this.form.submit()"
-            name="updateThis"
+            name="update"
             value="<%= entry.id %>"
           >
             <i class="fas fa-pencil-alt"></i>
@@ -49,7 +49,7 @@
           <button
             class="btn btn-primary btn-sm m-0"
             onclick="this.form.submit()"
-            name="deleteThis"
+            name="delete"
             value="<%= entry.id %>"
           >
             <i class="fas fa-trash-alt"></i>
@@ -60,28 +60,28 @@
     <% }) %>
   </tbody>
 </table>
-<table class="table table-striped mobile-table" id="results-table">
+<table class="table table-striped mobile-table table-hover" id="results-table">
   <thead class="thead-light">
     <tr>
-      <th scope="col"><a href="javascript:sortTable(0,'T');">Artist</a></th>
-      <th scope="col"><a href="javascript:sortTable(1,'T');">Album</a></th>
-      <th scope="col"><a href="javascript:sortTable(2,'N');">Track</a></th>
-      <th scope="col"><a href="javascript:sortTable(3,'T');">Song Title</a></th>
-      <th scope="col"><a href="javascript:sortTable(4,'N');">Year</a></th>
+      <th scope="col">Artist</th>
+      <th scope="col">Album</th>
+      <th scope="col">Track</th>
+      <th scope="col">Song</th>
+      <th scope="col">Year</th>
     </tr>
   </thead>
   <tbody>
     <% entries.forEach((entry) => { %>
 
     <tr>
-      <td><a href="/artists/<%= entry.artist %>"><%= entry.artist %></a></td>
+      <td><a href="/artist/<%= entry.artist %>"><%= entry.artist %></a></td>
       <td>
-        <a href="/artists/<%= entry.artist %>/<%= entry.album %>"
+        <a href="/artist/<%= entry.artist %>/<%= entry.album %>"
           ><%= entry.album %></a
         >
       </td>
       <td><%= entry.trackNumber %></td>
-      <td><a href="/songs/<%= entry._id %>"><%= entry.title %></a></td>
+      <td><a href="/song/<%= entry._id %>"><%= entry.title %></a></td>
       <td><%= entry.year %></td></tr>
     </tr>
     <% }) %>

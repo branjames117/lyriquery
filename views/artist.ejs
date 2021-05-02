@@ -1,19 +1,19 @@
 <%- include('partials/header') %>
 
-<h2>All Songs by <a href="/artists/<%= artist %>"
+<h2>All Songs by <a href="/artist/<%= artist %>"
   ><%= artist %></a
 ></h2>
 
 <% if (songs.length === 0 ) { %>
   <p>No results found.</p>
   <% } else { %>
-  <table class="table table-striped" id="results-table">
+  <table class="table table-striped table-hover full-table" id="results-table">
     <thead class="thead-light">
       <tr>
         <th scope="col"><a href="javascript:sortTable(0,'T');">Album</a></th>
         <th scope="col"><a href="javascript:sortTable(1,'N');">Track</a></th>
-        <th scope="col"><a href="javascript:sortTable(2,'T');">Song Title</a></th>
-        <th scope="col"><a href="javascript:sortTable(3,'T');">Featuring</a></th>
+        <th scope="col"><a href="javascript:sortTable(2,'T');">Song</a></th>
+        <th scope="col"><a href="javascript:sortTable(3,'T');">Feat.</a></th>
         <th scope="col"><a href="javascript:sortTable(4,'N');">Year</a></th>
         <th scope="col"></th>
         <th scope="col"></th>
@@ -23,11 +23,11 @@
       <% songs.forEach((song) => { %>
   
       <tr>
-        <td><a href="/artists/<%= song.artist %>/<%= song.album %>"
+        <td><a href="/artist/<%= song.artist %>/<%= song.album %>"
           ><%= song.album %></a
         ></td>
         <td><%= song.trackNumber %></td>
-        <td><a href="/songs/<%= song._id %>"><%= song.title %></a></td>
+        <td><a href="/song/<%= song._id %>"><%= song.title %></a></td>
         <td><%= song.featuredArtist %></td>
         <td><%= song.year %></td>
         <td>
@@ -58,7 +58,31 @@
       <% }) %>
     </tbody>
   </table>
+  <table class="table table-striped table-hover mobile-table" id="results-table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Album</th>
+        <th scope="col">Track</th>
+        <th scope="col">Song</th>
+        <th scope="col">Feat.</th>
+        <th scope="col">Year</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% songs.forEach((song) => { %>
   
+      <tr>
+        <td><a href="/artist/<%= song.artist %>/<%= song.album %>"
+          ><%= song.album %></a
+        ></td>
+        <td><%= song.trackNumber %></td>
+        <td><a href="/song/<%= song._id %>"><%= song.title %></a></td>
+        <td><%= song.featuredArtist %></td>
+        <td><%= song.year %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
   <% } %>
   
   <a href="/submit"><button class="btn btn-primary">Add New</button></a>

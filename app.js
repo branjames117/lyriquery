@@ -68,44 +68,85 @@ app.get('/doc', (req, res) => {
 
 // GET SUBMISSION ROUTE ///////////////////////////////////////////////////////////////
 app.get('/submit', (req, res) => {
-  res.render('submit');
+
+  if (req.body.update) {
+    Song.findOne({ _id: update }, (err, song) => {
+      if (err) res.render('error', { err: 'Song ID not found in the database. Something went wrong.' });
+      res.render('submit', { song: song });
+    });
+  } else {
+    let song = {
+      artist: null,
+      featuredArtist: null,
+      title: null,
+      trackNumber: null,
+      album: null,
+      authors: null,
+      year: null,
+      lyrics: []
+    }
+    res.render('submit', { song: song });
+  }
 });
 
-// DATABASTE SUBMIT ROUTE ///////////////////////////////////////////////////////////////
+// DATABASTE UPDATE ROUTE ///////////////////////////////////////////////////////////////
 app.post('/submit', (req, res) => {
-  let song = new Song({
-    title: req.body.title,
-    artist: req.body.artist,
-    featuredArtist: req.body.featured,
-    album: req.body.album,
-    year: req.body.year,
-    authors: req.body.authors.replace(', ', ',').split(','),
-    trackNumber: req.body.track,
-    // split the lyrics input into an array of strings separated by \r\n, then filter out empty strings
-    lyrics: req.body.lyrics.split('\r\n').filter(line => line.length > 0)
-  });
-  
-  // check if song title/artist combination already exists in database
-  Song.exists({ title: req.body.title, artist: req.body.artist }, (err, doc) => {
-    if (err) {
-      res.render('error', { err: 'Could not access the database! Contact your administrator.' });
-    }
-    // if song already exists, send to error route
-    if (doc) {
-      res.render('error', { err: 'Song title already exists in database!' });
-    // else save it to the database
-    } else {
+  // update posted to submit route, must be a request to update a song, redirect
+  if (req.body.update) {
+    Song.findOne({ _id: req.body.update }, (err, song) => {
+      if (err) res.render('error', { err: 'Song ID not found in the database. Something went wrong.' });
+      res.render('submit', { song: song });
+      });
+  // songID posted to submit route, must be an update in progress, redirect
+  } else if (req.body.songID) {
+    Song.findOne({ _id: req.body.songID }, (err, song) => {
+      if (err) res.render('error', { err: 'Song ID not found in the database. Something went wrong.' });
+      song.artist = req.body.artist;
+      song.featuredArtist = req.body.featured;
+      song.title = req.body.title;
+      song.trackNumber = req.body.track;
+      song.album = req.body.album;
+      song.authors = req.body.authors.replace(', ', ',').split(',');
+      song.year = req.body.year;
+      song.lyrics = req.body.lyrics.split('\r\n').filter(line => line.length > 0);
       song.save((error) => {
         if (error) {
           res.render('error', { err: 'Validation error. Be sure to fill out all required fields.' });
         } else {
         res.redirect('/database');
         }
+      });
+    });
+  // no update nor songID posted, must be a new submission, redirect
+  } else {
+    let song = new Song({
+      title: req.body.title,
+      artist: req.body.artist,
+      featuredArtist: req.body.featured,
+      album: req.body.album,
+      year: req.body.year,
+      authors: req.body.authors.replace(', ', ',').split(','),
+      trackNumber: req.body.track,
+      // split the lyrics input into an array of strings separated by \r\n, then filter out empty strings
+      lyrics: req.body.lyrics.split('\r\n').filter(line => line.length > 0)
+    });
+    // check if song title/artist combination already exists in database
+    Song.exists({ title: req.body.title, artist: req.body.artist }, (err, doc) => {
+      if (err) res.render('error', { err: 'Could not access the database! Contact your administrator.' });
+      // if song already exists, send to error route
+      if (doc) res.render('error', { err: 'Song title already exists in database!' });
+      // else save it to the database
+      song.save((error) => {
+          if (error) {
+            res.render('error', { err: 'Validation error. Be sure to fill out all required fields.' });
+          } else {
+          res.redirect('/database');
+          }
+        }
+        );
       }
-      );
-     }
-   }
-  );
+    );
+  }
 });
 
 // NORMALIZE STRINGS FUNCTION //////////////////////////////////////////////////////////
@@ -115,6 +156,7 @@ function normalizeStr(str) {
 
 // DATABASTE QUERY ROUTE ///////////////////////////////////////////////////////////////
 app.post('/results', (req, res) => {
+  // start with an empty array
   let matches = [];
 
   Song.find({ artist: { $regex: req.body.artist }}, (err, doc) => {
@@ -126,6 +168,7 @@ app.post('/results', (req, res) => {
         : null;
       });
     });
+    // sort matches by year, looks cleaner when displayed
     matches.sort((a, b) => {
       return b.year - a.year;
     });
@@ -134,7 +177,7 @@ app.post('/results', (req, res) => {
 });
 
 // GET SPECIFIC SONG ROUTE ///////////////////////////////////////////////////////////////
-app.get('/songs/:songID', (req, res) => {
+app.get('/song/:songID', (req, res) => {
   let songID = req.params.songID;
   Song.findOne({ _id: songID }, (err, song) => {
     if (err) res.render('error', { err: 'Song ID not found in the database. Something went wrong.' });
@@ -142,8 +185,13 @@ app.get('/songs/:songID', (req, res) => {
   });
 });
 
+// GET ALL ARTISTS ROUTE ///////////////////////////////////////////////////////////////
+app.get('/artist/', (req, res) => {
+  res.redirect('/database');
+});
+
 // GET SPECIFIC ARTIST ROUTE ///////////////////////////////////////////////////////////////
-app.get('/artists/:artistID', (req, res) => {
+app.get('/artist/:artistID', (req, res) => {
   let artist = req.params.artistID;
   Song.find({ artist: artist }, (err, songs) => {
     if (err) console.error(err);
@@ -152,7 +200,7 @@ app.get('/artists/:artistID', (req, res) => {
 });
 
 // GET SPECIFIC ALBUM ROUTE ///////////////////////////////////////////////////////////////
-app.get('/artists/:artistID/:albumID', (req, res) => {
+app.get('/artist/:artistID/:albumID', (req, res) => {
   let artist = req.params.artistID;
   let album = req.params.albumID;
   Song.find({ artist: artist, album: album }, (err, songs) => {
@@ -163,41 +211,9 @@ app.get('/artists/:artistID/:albumID', (req, res) => {
 
 // DELETE SONG ROUTE ///////////////////////////////////////////////////////////////////
 app.post('/delete', (req, res) => {
-  Song.deleteOne({ _id: req.body.deleteThis }, (err) => {
+  Song.deleteOne({ _id: req.body.delete }, (err) => {
     if (err) res.render('error', { err: 'Song ID not found in the database. Something went wrong.' });
     res.redirect('/database');
-  });
-});
-
-// UPDATE SONG ROUTE ///////////////////////////////////////////////////////////////////
-app.post('/update', (req, res) => {
-  Song.findOne({ _id: req.body.songID }, (err, song) => {
-    if (err) console.error(err);
-    song.artist = req.body.artist;
-    song.featuredArtist = req.body.featured;
-    song.title = req.body.title;
-    song.trackNumber = req.body.track;
-    song.album = req.body.album;
-    song.authors = req.body.authors.replace(', ', ',').split(',');
-    song.year = req.body.year;
-    song.lyrics = req.body.lyrics.split('\r\n').filter(line => line.length > 0);
-    song.save((error) => {
-      if (error) {
-        res.render('error', { err: 'Validation error. Be sure to fill out all required fields.' });
-      } else {
-      res.redirect('/database');
-      }
-    });
-  });
-});
-
-// SUBMIT UPDATE ROUTE ////////////////////////////////////////////////////////////////
-app.post('/submitupdate', (req, res) => {
-  let updateID = req.body.updateThis;
-  // finds the song to be updated and sends its properties to the update route
-  Song.findOne({ _id: updateID }, (err, song) => {
-    if (err) res.render('error', { err: 'Song ID not found in the database. Something went wrong.' });
-    res.render('update', { song: song });
   });
 });
 

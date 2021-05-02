@@ -1,10 +1,9 @@
 <%- include('partials/header') %>
 
-<h2>About LyriQuery</h2>
+<h2>About LyriQuery (v0.0.1)</h2>
 
 <p>
-  LyriQuery is a lyrics database requested by Shannon Hayes due to her love of
-  Taylor Swift. It is developed by Brandon James using
+  LyriQuery is a lyrics database requested by Shannon Hayes, who wanted to be able to find the exact specific Taylor Swift lyric to match the moods of her Instagram stories and Facebook posts. It is developed by Brandon James using
   <a href="https://nodejs.org/en/">Node.js</a>,
   <a href="https://expressjs.com/">Express.js</a>,
   <a href="https://mongoosejs.com/">Mongoose</a> and
@@ -17,20 +16,22 @@
 <h3>Submitting Lyrics</h3>
 <p>
   Before queries can be performed, the database must be populated using the
-  Submit route. All fields except Featured Artist(s) and Author(s) are required. If
-  a required field is missing, or if you submit lyrics for a song that already exists for that artist in the database, you'll be redirected to the Error route.
+  /submit route.
 </p>
-<p>Rules for database entry:
+<p><strong>Guidelines for database entry</strong>
   <ul>
-    <li>Remove extraneous lines like [Outro: Taylor Swift] and [Both singing now], unless you want these counted as individual lines.</li>
-    <li>Extra line breaks (like the ones between stanzas) will be filtered out.</li>
+    <li>All fields except <em>Featured Artist(s)</em> and <em>Author(s)</em> are required.</li>
+    <li><em>Track Number</em> and <em>Year</em> must be numerical values.</li>
+    <li>Each new line of a song should start on a new line (carriage return).</li>
+    <li>If copying and pasting lyrics from the internet, remove extraneous lines like [Outro: Taylor Swift] and [Both singing now], otherwise they'll be counted as individual lines.</li>
+    <li>Extra line breaks (like the ones between stanzas) will be filtered out automatically, so you can leave them in.</li>
   </ul>
 </p>
 
-<h3>Querying Lyrics</h3>
+<h3>Submitting Queries</h3>
 <p>
-  From the root page, enter the name of the artist as well as a query - without quotes! This will query the MongoDB database, first pulling all songs by the specified artist,
-  then looping through each and every song, line by line, looking for matches to your query. When a match is found, that line, as well as its pertinent data, is pushed onto an array of match objects, which is then sent along with you to the /results route,
+  From the / route, enter the name of the artist as well as a phrase. This will query MongoDB, first pulling in all songs by the specified artist,
+  then looping through each and every song, line by line, looking for matches to your query. When a match is found, that line, as well as pertinent data, is pushed onto an array of match objects, which is then sent along with you to the /results route,
   where it is iterated over and converted into a table. This table is sortable thanks to the Willmaster Table Sort script by Will Bontrager, 2011. String methods on both ends make queries a little more forgivable, so "i'm in exile" will return lines containing "I'm in exile," and "seeing you out" will return lines containing "seein' you out" (but the reverse is not true: "seein' you out" will not return "seeing you out"). As well, special characters like commas, periods, semicolons, quotation marks and parentheses will be ignored.
 </p>
 
