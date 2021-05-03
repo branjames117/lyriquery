@@ -149,9 +149,23 @@ app.post('/submit', (req, res) => {
   }
 });
 
-// NORMALIZE STRINGS FUNCTION //////////////////////////////////////////////////////////
-function normalizeStr(str) {
-  return str.toLowerCase().replace('in\'', 'ing').replace(/[,.;()\"\']/g,'');
+// REGEX FUNCTION TO IMPROVE SEARCH FUNCTIONALITY //////////////////////////////////////
+function checkLineMatch(phrase, line) {
+
+  phrase = phrase.replace('in\'', 'ing').replace(/[,.;()\"\']/g,'');
+  line = line.replace('in\'', 'ing').replace(/[,.;()\"\']/g,'');
+  const allowedSeparator = '\\\s,;"\'|';
+
+  // RegEx to check if word is the last word, the first word, the only word, or a between word
+  const regex = new RegExp(
+    `(^.*[${allowedSeparator}]${phrase}$)|(^${phrase}[${allowedSeparator}].*)|(^${phrase}$)|(^.*[${allowedSeparator}]${phrase}[${allowedSeparator}].*$)`,
+
+    // set case to insensitive
+    'i',
+  );
+
+  // return true or false depending on if line contains the queried phrase
+  return regex.test(line);
 }
 
 // DATABASTE QUERY ROUTE ///////////////////////////////////////////////////////////////
@@ -162,12 +176,13 @@ app.post('/results', (req, res) => {
   Song.find({ artist: { $regex: req.body.artist }}, (err, doc) => {
     doc.forEach((song) => {
       song.lyrics.forEach((line, index) => {
-        // ternary operator: if iterated line contains the query, push it to the matches array, else, do nothing
-        normalizeStr(line).includes(normalizeStr(req.body.query))
-        ? matches.push({id: song._id, title: song.title, artist: song.artist, trackNumber: song.trackNumber, featuredArtist: song.featuredArtist, album: song.album, year: song.year, authors: song.authors, lineNumber: index + 1, line: line})
-        : null;
-      });
+        // call checkLineMatch on each line, if line contains match, push it to array with #
+        if (checkLineMatch(req.body.query, line)) {
+          matches.push({id: song._id, title: song.title, artist: song.artist, trackNumber: song.trackNumber, featuredArtist: song.featuredArtist, album: song.album, year: song.year, authors: song.authors, lineNumber: index + 1, line: line});
+        }
     });
+  });
+    
     // sort matches by year, looks cleaner when displayed
     matches.sort((a, b) => {
       return b.year - a.year;
