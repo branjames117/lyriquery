@@ -1,37 +1,20 @@
 <%- include('partials/header') %>
 
-<h2>Welcome to LyriQuery</h2>
+<h2>Welcome to Lyri<i class="fas fa-search text-drop"></i>uery</h2>
 
-<p style="margin-bottom: 20px">
+<%- include('partials/search') %>
+
+<p class="my-3">
   Need a specific lyric for your Instagram story or Facebook image caption? Find
-  all occurrences of a specific phrase from your favorite artist's catalog.
+  all occurrences of a specific phrase from your favorite artist's catalog, or
+  add their catalog to the database!
 </p>
 
-<form action="/results" method="post">
-  <div class="form-group d-flex flex-column">
-    <label for="artist">Artist</label>
-    <input
-      class="form-control"
-      type="text"
-      id="artist"
-      name="artist"
-      value="Taylor Swift"
-      placeholder="Artist"
-    />
-    <label for="query">LyriQuery <span class="text-danger">*</span></label>
-    <input
-      required
-      class="form-control"
-      type="text"
-      id="query"
-      name="query"
-      value="I'm in exile"
-      placeholder="Phrase"
-    />
-    <button class="btn btn-primary">Run the LyriQuery</button>
-  </div>
-</form>
+<img class="image mx-auto mt-5 d-block" src="/img/headphones.jpg" />
 
-<img class="image mx-auto d-block mt-5" src="/img/headphones.jpg" />
+<p class="my-3">
+  If you're feeling lucky, try your hand at a LyriQuiz! Match randomly chosen
+  lyrics to your favorite artist's songs and see how high you can score!
+</p>
 
-<%- include('partials/footer') %>
+<%- include('partials/quizform') %> <%- include('partials/footer') %>

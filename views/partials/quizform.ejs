@@ -1,0 +1,30 @@
+<form action="/quiz" method="post">
+  <div class="form-group d-flex flex-column">
+    <label for="artist">Artist <span class="text-danger">*</span></label>
+    <input
+      class="form-control"
+      type="text"
+      id="artist"
+      name="artist"
+      value="Taylor Swift"
+      placeholder="Artist"
+      required
+    />
+    <label for="questions"
+      >Number of Questions (5-50) <span class="text-danger">*</span></label
+    >
+    <input
+      required
+      class="form-control"
+      type="number"
+      id="numberOfQuestions"
+      name="numberOfQuestions"
+      value="10"
+      min="5"
+      max="50"
+    />
+    <button class="btn btn-primary mt-4" tabindex="3">
+      Lyri<i class="fas fa-search text-drop"></i>uiz
+    </button>
+  </div>
+</form>

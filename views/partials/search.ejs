@@ -1,0 +1,28 @@
+<form action="/results" method="post">
+  <div class="form-group d-flex flex-column">
+    <label for="artist">Artist</label>
+    <input
+      tabindex="1"
+      class="form-control"
+      type="text"
+      id="artist"
+      name="artist"
+      value="Taylor Swift"
+      placeholder="Artist"
+    />
+    <label for="query">LyriQuery <span class="text-danger">*</span></label>
+    <input
+      tabindex="2"
+      required
+      class="form-control"
+      type="text"
+      id="query"
+      name="query"
+      value="<%= randomText %>"
+      placeholder="Phrase"
+    />
+    <button class="btn btn-primary mt-4" tabindex="3">
+      Lyri<i class="fas fa-search text-drop"></i>uery
+    </button>
+  </div>
+</form>

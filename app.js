@@ -47,18 +47,88 @@ const songSchema = new mongoose.Schema({
 });
 const Song = mongoose.model('Song', songSchema);
 
+// GET RANDOM TEXT FUNCTION FOR SEARCH SUGGESTIONS ///////////////////////////////////////
+function getRandomQuery() {
+  let options = [
+    'exile',
+    'lover',
+    'blank space baby',
+    'big reputation',
+    'secret',
+    'handsome',
+    'remember',
+    'die'
+  ]
+  let randIndex = Math.floor(Math.random() * options.length)
+  return options[randIndex]
+}
+
 // GET ROOT / HOME / SEARCH ROUTE ////////////////////////////////////////////////////////
 app.get('/', (req, res) => {
-  res.render('home');
+  res.render('home', { randomText: getRandomQuery() });
 });
 
 // GET DATABASE ROUTE ///////////////////////////////////////////////////////////////////
 app.get('/database', (req, res) => {
   Song.find({}, (err, doc) => {
-    if (err) res.render('error', { err: 'Could not access the database! Contact your administrator.' });
+    if (err) res.render('error', { err: 'Could not access the database! Contact your administrator.', randomText: getRandomQuery() });
     // send all database entries as an array to the database route
-    res.render('database', { entries: doc });
+    res.render('database', { entries: doc, randomText: getRandomQuery() });
   });
+});
+
+// GET QUIZ ROUTE ///////////////////////////////////////////////////////////////////////
+app.post('/quiz', (req, res) => {
+  let artist = req.body.artist;
+  let numberOfQuestions = req.body.numberOfQuestions;
+
+  Song.find({ artist: { $regex: artist }}, (err, doc) => {
+    if (err) res.render('error', { err: 'Could not access the database! Contact your administrator.', randomText: getRandomQuery() });
+    if (doc.length === 0) {
+      res.render('quizError', { err: 'No artist by that name found in the database. ' });
+    } else {
+      let randomSongs = [];
+      for (let i = 0; i < numberOfQuestions; i++) {
+        let randomSongIndex = Math.floor((Math.random() * doc.length));
+        randomSongs.push(doc[randomSongIndex]);
+      }
+  
+      // from each of the random Songs, choose a random Line, and push a Quiz object
+      // containing the song name and the line
+      let randomQuizObjects = [];
+      randomSongs.forEach(song => {
+        let randomLineIndex = Math.floor((Math.random() * song.lyrics.length));
+        randomQuizObjects.push({ answer: song.title, question: song.lyrics[randomLineIndex]});
+      });
+  
+      res.render('quiz', { questions: randomQuizObjects, numberOfQuestions: numberOfQuestions, artist: artist });
+    }
+
+  });
+});
+
+// GET QUIZ RESULTS ROUTE //////////////////////////////////////////////////////////////
+app.post('/quizresults', (req, res) => {
+  let guesses = req.body.guesses;
+  let questions = req.body.questions;
+  let answers = req.body.answers;
+
+  // count up the number of properties in the req.body object to get total number of questions
+  let totalQuestions = questions.length;
+
+  let points = 0;
+  let pointsArray = [];
+  questions.forEach((question, idx) => {
+    if (answers[idx].toLowerCase() === guesses[idx].toLowerCase().trim()) {
+      points++;
+      pointsArray.push(1);
+    } else {
+      pointsArray.push(0);
+    }
+  });
+  let score = points / totalQuestions * 100;
+  res.render('quizResults', { questions: questions, guesses: guesses, answers: answers, points: points, score: score, totalQuestions: totalQuestions, pointsArray: pointsArray });
+
 });
 
 // GET DOCUMENTATION / ABOUT ROUTE //////////////////////////////////////////////////////
@@ -71,7 +141,7 @@ app.get('/submit', (req, res) => {
 
   if (req.body.update) {
     Song.findOne({ _id: update }, (err, song) => {
-      if (err) res.render('error', { err: 'Song ID not found in the database. Something went wrong.' });
+      if (err) res.render('error', { err: 'Song ID not found in the database. Something went wrong.', randomText: getRandomQuery() });
       res.render('submit', { song: song });
     });
   } else {
@@ -94,7 +164,7 @@ app.post('/submit', (req, res) => {
   // update posted to submit route, must be a request to update a song, redirect
   if (req.body.update) {
     Song.findOne({ _id: req.body.update }, (err, song) => {
-      if (err) res.render('error', { err: 'Song ID not found in the database. Something went wrong.' });
+      if (err) res.render('error', { err: 'Song ID not found in the database. Something went wrong.', randomText: getRandomQuery() });
       res.render('submit', { song: song });
       });
   // songID posted to submit route, must be an update in progress, redirect
@@ -111,7 +181,7 @@ app.post('/submit', (req, res) => {
       song.lyrics = req.body.lyrics.split('\r\n').filter(line => line.length > 0);
       song.save((error) => {
         if (error) {
-          res.render('error', { err: 'Validation error. Be sure to fill out all required fields.' });
+          res.render('error', { err: 'Validation error. Be sure to fill out all required fields.', randomText: getRandomQuery() });
         } else {
         res.redirect('/database');
         }
@@ -132,13 +202,13 @@ app.post('/submit', (req, res) => {
     });
     // check if song title/artist combination already exists in database
     Song.exists({ title: req.body.title, artist: req.body.artist }, (err, doc) => {
-      if (err) res.render('error', { err: 'Could not access the database! Contact your administrator.' });
+      if (err) res.render('error', { err: 'Could not access the database! Contact your administrator.', randomText: getRandomQuery() });
       // if song already exists, send to error route
-      if (doc) res.render('error', { err: 'Song title already exists in database!' });
+      if (doc) res.render('error', { err: 'Song title already exists in database!', randomText: getRandomQuery() });
       // else save it to the database
       song.save((error) => {
           if (error) {
-            res.render('error', { err: 'Validation error. Be sure to fill out all required fields.' });
+            res.render('error', { err: 'Validation error. Be sure to fill out all required fields.', randomText: getRandomQuery() });
           } else {
           res.redirect('/database');
           }
@@ -152,7 +222,7 @@ app.post('/submit', (req, res) => {
 // REGEX FUNCTION TO IMPROVE SEARCH FUNCTIONALITY //////////////////////////////////////
 function checkLineMatch(phrase, line) {
 
-  phrase = phrase.replace('in\'', 'ing').replace(/[,.;()\"\']/g,'');
+  phrase = phrase.replace('in\'', 'ing').replace(/[,.;()\"\']/g,'').trim();
   line = line.replace('in\'', 'ing').replace(/[,.;()\"\']/g,'');
   const allowedSeparator = '\\\s,;"\'|';
 
@@ -187,7 +257,7 @@ app.post('/results', (req, res) => {
     matches.sort((a, b) => {
       return b.year - a.year;
     });
-    res.render('results', { matches: matches, query: req.body.query, artist: req.body.artist });
+    res.render('results', { matches: matches, query: req.body.query, artist: req.body.artist, randomText: getRandomQuery() });
   });
 });
 
@@ -195,7 +265,7 @@ app.post('/results', (req, res) => {
 app.get('/song/:songID', (req, res) => {
   let songID = req.params.songID;
   Song.findOne({ _id: songID }, (err, song) => {
-    if (err) res.render('error', { err: 'Song ID not found in the database. Something went wrong.' });
+    if (err) res.render('error', { err: 'Song ID not found in the database. Something went wrong.', randomText: getRandomQuery() });
     res.render('song', { song: song });
   });
 });
@@ -227,12 +297,12 @@ app.get('/artist/:artistID/:albumID', (req, res) => {
 // DELETE SONG ROUTE ///////////////////////////////////////////////////////////////////
 app.post('/delete', (req, res) => {
   Song.deleteOne({ _id: req.body.delete }, (err) => {
-    if (err) res.render('error', { err: 'Song ID not found in the database. Something went wrong.' });
+    if (err) res.render('error', { err: 'Song ID not found in the database. Something went wrong.', randomText: getRandomQuery() });
     res.redirect('/database');
   });
 });
 
 // SERVER LISTEN ON PORT 3000 /////////////////////////////////////////////////////////
 app.listen(process.env.PORT, function() {
-  console.log(`Server started on port ${process.env.PORT}`);
+  console.log(`Server started at http://localhost:${process.env.PORT}`);
 });

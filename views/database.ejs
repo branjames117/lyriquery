@@ -1,7 +1,7 @@
 <%- include('partials/header') %>
 
 <h2>All Songs Database</h2>
-<a href="/submit"><button class="btn btn-primary">Add New</button></a>
+<a href="/submit"><div class="form-group d-flex flex-column"><button class="btn btn-primary">Add New</button></div></a>
 <% if (entries.length === 0 ) { %>
 <p>No results found.</p>
 <% } else { %>
@@ -89,9 +89,9 @@
 </table>
 <% } %>
 
-<a href="/submit"><button class="btn btn-primary">Add New</button></a>
+<a href="/submit"><div class="form-group d-flex flex-column"><button class="btn btn-primary">Add New</button></div></a>
 
-<a href="#top"><button class="btn btn-primary">Return to Top</button></a>
+<a href="#top"><div class="form-group d-flex flex-column"><button class="btn btn-primary">Return to Top</button></div></a>
 
 <script src="/scripts/sort.js" type="text/javascript"></script>
 

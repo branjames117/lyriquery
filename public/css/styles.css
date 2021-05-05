@@ -23,32 +23,38 @@ body {
 
 .container {
   min-height: 100%;
+  max-width: 800px;
   height: 100%;
 }
 
 /* NAVBAR STYLES */
 
 .navbar {
-  padding: 15px 0;
-  border: 0;
-  border-radius: 0;
-  margin-bottom: 0;
   letter-spacing: 5px;
   background-color: var(--secondary-clr) !important;
 }
 
-.navbar-brand a {
+.navbar-brand {
   text-decoration: none;
   font-size: 1.5rem;
+  transition: all 0.25s linear;
 }
 
-.navbar-nav li a {
+.navbar-brand:hover {
+  color: var(--tertiary-clr) !important;
+}
+
+.navbar .navbar-nav li a {
   color: var(--primary-clr) !important;
-  transition: color 0.25s linear;
+  transition: all 0.25s linear;
 }
 
 .navbar-nav li a:hover {
   color: var(--tertiary-clr) !important;
+}
+
+.text-drop {
+  transform: translate(3px, 3px);
 }
 
 /* MAIN BODY STYLES */
@@ -117,6 +123,16 @@ table {
   box-shadow: 0 0 0 0.25rem rgba(129, 82, 173, 0.322);
 }
 
+.btn {
+  box-shadow: 5px 5px 3px #88888875;
+  transition: all 0.25s linear;
+}
+
+.btn:hover {
+  box-shadow: 2px 2px 1px #88888875;
+  transform: scale(0.99);
+}
+
 .btn-primary {
   background-color: var(--primary-clr);
   color: var(--secondary-clr);
@@ -151,6 +167,14 @@ footer {
 
 .social:hover {
   color: var(--tertiary-clr) !important;
+}
+
+.correct-answer {
+  color: green;
+}
+
+.incorrect-answer {
+  color: red;
 }
 
 @media screen and (max-width: 600px) {

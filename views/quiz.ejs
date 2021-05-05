@@ -1,0 +1,22 @@
+<%- include('partials/header') %>
+
+<h2>LyriQuiz</h2>
+
+<p>Here <% if (numberOfQuestions == 1) { %>is<% } else { %>are<% } %> <%= numberOfQuestions %> random <% if (numberOfQuestions == 1) { %>lyric<% } else { %>lyrics<% } %> pulled from all songs by <%= artist %>. Can you identify them all?</p>
+
+<p>
+  <form action="/quizresults" method="post">
+  <div class="form-group d-flex flex-column">
+  <% questions.forEach((question, idx) => { %>
+    <label for='<%= idx %>'><%= idx + 1 %>. <%= question.question %> </label>
+    <input class='form-control' type='text' name='guesses' value="" autocomplete='off'/>
+    <input type="hidden" name="questions" value="<%= question.question %>" />
+    <input type="hidden" name="answers" value="<%= question.answer %>" />
+  <% }); %>
+
+  <button class="btn btn-primary" type="submit" value="">Get Score</button>
+</div>
+</form>
+</p>
+
+<%- include('partials/footer') %>
