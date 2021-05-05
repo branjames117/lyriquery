@@ -119,7 +119,7 @@ app.post('/quizresults', (req, res) => {
   let points = 0;
   let pointsArray = [];
   questions.forEach((question, idx) => {
-    if (answers[idx].toLowerCase() === guesses[idx].toLowerCase().trim()) {
+    if (answers[idx].toLowerCase().replace(/[,.;()\"\']/g,'') === guesses[idx].toLowerCase().replace(/[,.;()\"\']/g,'').trim()) {
       points++;
       pointsArray.push(1);
     } else {
