@@ -152,7 +152,8 @@ footer {
   left: 0;
   bottom: 0;
   width: 100%;
-  padding: 5px 0;
+  height: fit-content;
+  margin-top: 100px;
   text-align: center;
   font-size: 1.1rem;
   background-color: var(--primary-clr);

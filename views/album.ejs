@@ -28,11 +28,11 @@
       <td><%= song.featuredArtist %></td>
       <td><%= song.year %></td>
       <td>
-        <form action="/submitupdate" method="post">
+        <form action="/submit" method="post">
           <button
             class="btn btn-primary btn-sm m-0"
             onclick="this.form.submit()"
-            name="updateThis"
+            name="update"
             value="<%= song._id %>"
           >
             <i class="fas fa-pencil-alt"></i>
@@ -44,7 +44,7 @@
           <button
             class="btn btn-primary btn-sm m-0"
             onclick="this.form.submit()"
-            name="deleteThis"
+            name="delete"
             value="<%= song._id %>"
           >
             <i class="fas fa-trash-alt"></i>
