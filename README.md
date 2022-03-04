@@ -20,7 +20,7 @@ Clone this repository, then cd into it and run `npm install` to install all depe
 
 ## Usage
 
-Run `node app` to start the server on localhost, then visit http://localhost:{specified port} to get started.
+Run `node app` to start the server on localhost, then visit http://localhost:PORT to get started.
 
 This app is hosted live on Heroku [here](https://peaceful-basin-76013.herokuapp.com/).
 
